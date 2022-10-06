@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".EditProfileActivity"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="更换头像"
+                android:layout_margin="10dp"
+                />
+
+
+            <ImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/ic_launcher_round" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/iv_avatar">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_bg_selector"
+                    android:text="拍照"
+                    android:textColor="@color/white"
+                    android:textSize="14dp" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/btn_bg_selector"
+                    android:text="相册"
+                    android:textColor="@color/white"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+
+
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingLeft="10dp"
+            android:gravity="center_vertical">
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_account"
+                android:textSize="20sp"
+                android:text="账号"
+                android:layout_centerVertical="true"
+                />
+
+            <EditText
+                android:id="@+id/et_account_text"
+                style="@style/MyEditStyle"
+                android:layout_width="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/tv_account"
+                android:background="@drawable/edit_text_bg"
+                android:text="123"/>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp">
+
+
+            <TextView
+                android:id="@+id/tv_birth_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="出生时间"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/et_birth_time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+
+                android:text="2002"
+                android:textSize="14sp" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingLeft="10dp"
+            android:gravity="center_vertical"
+
+            >
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_home"
+                android:textSize="20sp"
+                android:text="城市"
+                android:layout_centerVertical="true"
+                />
+
+            <EditText
+                android:id="@+id/et_home_text"
+                style="@style/MyEditStyle"
+                android:layout_width="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_toRightOf="@id/tv_home"
+                android:background="@drawable/edit_text_bg"
+                android:gravity="center"
+                android:text="杭州" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingLeft="10dp"
+            android:gravity="center_vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_school"
+                android:textSize="20sp"
+                android:text="学校"
+                android:layout_centerVertical="true"
+                />
+
+            <EditText
+                android:id="@+id/et_school_text"
+                style="@style/MyEditStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_toRightOf="@id/tv_school"
+                android:background="@drawable/edit_text_bg"
+                android:gravity="center"
+                android:text="杭电" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingLeft="10dp"
+            android:gravity="center_vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_sign"
+                android:textSize="20sp"
+                android:text="个人签名"
+                android:layout_centerVertical="true"
+                />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:text="Fraut mich."
+                android:id="@+id/tv_sign_text"
+                android:textSize="14sp"
+                />
+
+        </RelativeLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_bg_selector"
+            android:layout_margin="10dp"
+            android:text="编辑资料"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_bg_selector"
+            android:layout_margin="10dp"
+            android:text="退出登录"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            />
+
+    </LinearLayout>
+
+</ScrollView>
