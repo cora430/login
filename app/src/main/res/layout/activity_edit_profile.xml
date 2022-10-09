@@ -14,29 +14,27 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="250dp"
             >
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
                 android:text="更换头像"
-                android:layout_margin="10dp"
-                />
-
-
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp" />
             <ImageView
                 android:id="@+id/iv_avatar"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_centerInParent="true"
                 android:src="@mipmap/ic_launcher_round" />
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
@@ -63,11 +61,6 @@
                     android:textSize="14dp" />
 
             </LinearLayout>
-
-
-
-
-
         </RelativeLayout>
 
         <RelativeLayout
@@ -75,7 +68,8 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:paddingLeft="10dp"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:paddingRight="10dp">
 
 
 
@@ -85,6 +79,7 @@
                 android:id="@+id/tv_account"
                 android:textSize="20sp"
                 android:text="账号"
+
                 android:layout_centerVertical="true"
                 />
 
@@ -96,17 +91,95 @@
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/tv_account"
                 android:background="@drawable/edit_text_bg"
-                android:text="123"/>
+                android:text="123"
+                />
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingLeft="10dp"
+            android:gravity="center_vertical"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_nick_name"
+                android:textSize="20sp"
+                android:text="呢称"
+                android:layout_centerVertical="true"
+                />
+
+            <EditText
+                android:id="@+id/et_nick_name_text"
+                style="@style/MyEditStyle"
+                android:layout_width="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/tv_nick_name"
+                android:background="@drawable/edit_text_bg"
+                android:text=""/>
 
 
         </RelativeLayout>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:gravity="center_vertical"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_gender"
+                android:textSize="20sp"
+                android:text="性别"
+                android:layout_centerVertical="true"
+                />
+
+            <EditText
+                android:id="@+id/et_gender_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text=""
+                android:textSize="14sp" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="男"
+                    />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="女"
+                    android:layout_marginLeft="10dp"
+                    />
+            </RadioGroup>
+
+        </LinearLayout>
+
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
-            android:paddingLeft="10dp">
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
 
             <TextView
@@ -115,16 +188,25 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="出生时间"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                />
 
             <EditText
                 android:id="@+id/et_birth_time_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-
                 android:text="2002"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+                />
 
 
         </RelativeLayout>
@@ -135,7 +217,7 @@
             android:layout_height="40dp"
             android:paddingLeft="10dp"
             android:gravity="center_vertical"
-
+            android:paddingRight="10dp"
             >
 
 
@@ -149,15 +231,18 @@
                 android:layout_centerVertical="true"
                 />
 
-            <EditText
-                android:id="@+id/et_home_text"
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/sp_home_text"
                 style="@style/MyEditStyle"
                 android:layout_width="match_parent"
+                android:layout_height="40dp"
                 android:layout_centerInParent="true"
+                android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/tv_home"
                 android:background="@drawable/edit_text_bg"
+                android:entries="@array/cities"
                 android:gravity="center"
-                android:text="杭州" />
+                android:spinnerMode="dropdown" />
 
         </RelativeLayout>
 
@@ -167,6 +252,7 @@
             android:layout_height="40dp"
             android:paddingLeft="10dp"
             android:gravity="center_vertical"
+            android:paddingRight="10dp"
             >
 
             <TextView
@@ -184,6 +270,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
+                android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/tv_school"
                 android:background="@drawable/edit_text_bg"
                 android:gravity="center"
@@ -194,48 +281,45 @@
         <RelativeLayout
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="match_parent"
             android:paddingLeft="10dp"
             android:gravity="center_vertical"
+            android:paddingRight="10dp"
             >
 
             <TextView
+                android:id="@+id/tv_sign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_sign"
+
                 android:textSize="20sp"
                 android:text="个人签名"
-                android:layout_centerVertical="true"
+
                 />
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
+                android:minHeight="60dp"
+                android:gravity="start|top"
+                android:layout_below="@id/tv_sign"
+                android:layout_marginTop="5dp"
                 android:text="Fraut mich."
-                android:id="@+id/tv_sign_text"
-                android:textSize="14sp"
+                android:paddingLeft="10dp"
+                android:id="@+id/et_sign_text"
+                android:textSize="16sp"
+                android:background="@drawable/edit_text_bg"
                 />
 
         </RelativeLayout>
 
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@drawable/btn_bg_selector"
             android:layout_margin="10dp"
-            android:text="编辑资料"
-            android:textColor="@color/white"
-            android:textSize="18dp"
-            />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@drawable/btn_bg_selector"
-            android:layout_margin="10dp"
-            android:text="退出登录"
+            android:text="保存"
             android:textColor="@color/white"
             android:textSize="18dp"
             />

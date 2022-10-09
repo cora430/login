@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                             edit.apply();
                         }
                         Intent intent = new Intent();
-                        intent.setClass(MainActivity.this, HomePageActivity.class);
+                        intent.setClass(MainActivity.this, UserProfileActivity.class);
                         intent.putExtra("account",account);
                         startActivity(intent);
                         MainActivity.this.finish();
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         String password = spf.getString("password", "");
 
         if(isLogin){
-            Intent intent = new Intent(MainActivity.this, HomePageActivity.class);
+            Intent intent = new Intent(MainActivity.this, UserProfileActivity.class);
             intent.putExtra("account", account);
             startActivity(intent);
             MainActivity.this.finish();
