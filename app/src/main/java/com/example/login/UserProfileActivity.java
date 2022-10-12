@@ -5,33 +5,35 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 public class UserProfileActivity extends AppCompatActivity {
     private TextView tvNickname,tvAccount,tvAge,tvGender,tvCity,tvHome,tvSchool,tvSign,tvBirthdayTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         initView();
-        initData();
-        initEvent();
-
-
 
     }
 
-    public void initEvent(){
-
+    @Override
+    protected void onResume() {//保存后退出到User界面，不会执行onCreate，为了加载数据，将initDate放置在onResume里，onResume是一定要走的！！生命周期
+        super.onResume();
+        initDate();
     }
+
+
 
     public void toEdit(View view) {
         Intent intent = new Intent(this,EditProfileActivity.class);
 
         startActivity(intent);
     }
-
+   //logout直接用
     public void logout(View view) {
         //点击退出登录按钮时，isLogin状态改为FALSE，防止直接又自动登陆了
         SharedPreferences spf = getSharedPreferences("spfRecord", MODE_PRIVATE);
@@ -55,7 +57,7 @@ public class UserProfileActivity extends AppCompatActivity {
         tvSign = findViewById(R.id.tv_sign_text);
         tvBirthdayTime = findViewById(R.id.tv_birth_time_text);
     }
-    private  void initData(){
+    private  void initDate(){
         getDataFromSpf();
     }
 
@@ -64,13 +66,13 @@ public class UserProfileActivity extends AppCompatActivity {
         SharedPreferences spfRecord = getSharedPreferences("spfRecord", MODE_PRIVATE);
         String account = spfRecord.getString("account", "");
         String nickName = spfRecord.getString("nick_name", "");
-        String age = spfRecord.getString("age", "");
         String gender = spfRecord.getString("gender", "");
         String city = spfRecord.getString("city", "");
         String school = spfRecord.getString("school", "");
         String home = spfRecord.getString("home", "");
         String sign = spfRecord.getString("sign", "");
         String birthdayTime = spfRecord.getString("birthday_time", "");
+        String age = getAgeByBirthdayTime(birthdayTime);
 
         tvAccount.setText(account);
         tvNickname.setText(nickName);
@@ -82,6 +84,23 @@ public class UserProfileActivity extends AppCompatActivity {
         tvSign.setText(sign);
         tvBirthdayTime.setText(birthdayTime);
 
+    }
+
+    private String getAgeByBirthdayTime(String birthdayTime) {
+        //2000年10月……
+        if(TextUtils.isEmpty(birthdayTime)){
+            return "";
+        }
+        try{
+            int index = birthdayTime.indexOf("年");
+            String result = birthdayTime.substring(0, index);
+            int parseInt = Integer.parseInt(result);
+            return String.valueOf(2022-parseInt) ;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return"";
     }
 
 }
