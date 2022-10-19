@@ -1,7 +1,7 @@
-package com.test;
+package com.example.login.test;
 
-import com.dao.UserDao;
-import com.entity.user;
+import com.example.login.dao.UserDao;
+import com.example.login.entity.user;
 
 import java.util.List;
 import java.util.Scanner;

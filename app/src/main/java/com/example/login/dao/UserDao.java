@@ -1,7 +1,7 @@
-package com.dao;
+package com.example.login.dao;
 
-import com.entity.user;
-import com.utils.BaseDao;
+import com.example.login.entity.user;
+import com.example.login.utils.BaseDao;
 
 import java.sql.*;
 import java.util.ArrayList;

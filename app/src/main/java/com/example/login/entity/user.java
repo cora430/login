@@ -1,4 +1,4 @@
-package com.entity;
+package com.example.login.entity;
 
 public class user {
     private int id;

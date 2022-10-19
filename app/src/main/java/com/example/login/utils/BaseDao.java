@@ -1,4 +1,4 @@
-package com.utils;
+package com.example.login.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,9 +24,9 @@ public class BaseDao {
         Connection connection;
         try {
             System.out.println("正在连接到数据库...");
-            System.out.println("connection = DriverManager.getConnection('jdbc:mysql://169.254.15.251/', 'root', 'root');");//这边参数的意义，url:jdbc数据库网址 user:用户名 password:密码。
+            System.out.println("connection = DriverManager.getConnection('jdbc:mysql://255.255.224.0/', 'root', 'root');");//这边参数的意义，url:jdbc数据库网址 user:用户名 password:密码。
 
-            connection = DriverManager.getConnection("jdbc:mysql://169.254.15.251/","root","root");//同样由于getConnection方法会抛出SQLException，要使用try-catch
+            connection = DriverManager.getConnection("jdbc:mysql://255.255.224.0/","root","root");//同样由于getConnection方法会抛出SQLException，要使用try-catch
 
             System.out.println("已连接到数据库！！！\n");
             return connection;
