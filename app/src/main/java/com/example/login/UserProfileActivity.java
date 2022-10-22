@@ -7,11 +7,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class UserProfileActivity extends AppCompatActivity {
     private TextView tvNickname,tvAccount,tvAge,tvGender,tvCity,tvHome,tvSchool,tvSign,tvBirthdayTime;
 
+
+    private ImageView ivAvatar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +59,9 @@ public class UserProfileActivity extends AppCompatActivity {
         tvHome = findViewById(R.id.tv_home_text);
         tvSign = findViewById(R.id.tv_sign_text);
         tvBirthdayTime = findViewById(R.id.tv_birth_time_text);
+        ivAvatar = findViewById(R.id.iv_avatar);
+
+
     }
     private  void initDate(){
         getDataFromSpf();
@@ -73,6 +79,7 @@ public class UserProfileActivity extends AppCompatActivity {
         String sign = spfRecord.getString("sign", "");
         String birthdayTime = spfRecord.getString("birthday_time", "");
         String age = getAgeByBirthdayTime(birthdayTime);
+        String image64 = spfRecord.getString("image_64", "");
 
         tvAccount.setText(account);
         tvNickname.setText(nickName);
@@ -83,7 +90,7 @@ public class UserProfileActivity extends AppCompatActivity {
         tvHome.setText(home);
         tvSign.setText(sign);
         tvBirthdayTime.setText(birthdayTime);
-
+        ivAvatar.setImageBitmap(ImageUtil.base64ToImage(image64));
     }
 
     private String getAgeByBirthdayTime(String birthdayTime) {
