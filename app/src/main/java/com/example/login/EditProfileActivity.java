@@ -9,16 +9,21 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
@@ -34,8 +39,10 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 public class EditProfileActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_TAKE = 1;
@@ -53,8 +60,8 @@ public class EditProfileActivity extends AppCompatActivity {
     private Uri imageUri;
     private ImageView ivAvatar;
     private String imageBase64;
-    @Override
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
@@ -62,9 +69,6 @@ public class EditProfileActivity extends AppCompatActivity {
         initData();
         initEvent();
     }
-
-
-
 
     private void initEvent() {
         acsCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -114,7 +118,6 @@ public class EditProfileActivity extends AppCompatActivity {
     private void initData() {
         cities = getResources().getStringArray(R.array.cities);
         getDataFromSpf();
-
     }
     private void getDataFromSpf(){
         SharedPreferences spfRecord = getSharedPreferences("spfRecord", MODE_PRIVATE);
@@ -208,13 +211,12 @@ public class EditProfileActivity extends AppCompatActivity {
 
     //拍照功能的实现：先在Manifest里声明这个权限
     public void takePhoto(View view) {
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            //真正的执行拍照
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            // 真正的执行去拍照
             doTake();
-        }
-        else{
-            //去申请权限
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA},1);
+        } else {
+            // 去申请权限
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
         }
     }
 
@@ -226,6 +228,12 @@ public class EditProfileActivity extends AppCompatActivity {
                 doTake();
             }else{
                 Toast.makeText(this, "未获得摄像头的权限nie~", Toast.LENGTH_SHORT).show();
+            }
+        }else if(requestCode == 0){
+            if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                openAlbum();
+            }else{
+                Toast.makeText(this, "未获得访问相册的权限nie~", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -266,13 +274,118 @@ public class EditProfileActivity extends AppCompatActivity {
                     String imageToBase64 = ImageUtil.imageToBase64(bitmap);
                     imageBase64 = imageToBase64;
                 }catch (FileNotFoundException e){
-
                 }
             }
+        }else if(requestCode == REQUEST_CODE_CHOOSE){
+            if(Build.VERSION.SDK_INT < 19){
+                handleImageBeforeApi19(data);
+            }else{
+                handleImageOnApi19(data);
+            }
+        }
+    }
+
+    private void handleImageBeforeApi19(Intent data) {
+        Uri uri = data.getData();
+        String imagePath = getImagePath(uri, null);
+        displayImage(imagePath);
+    }
+
+    @TargetApi(19)
+    private void handleImageOnApi19(Intent data) {
+        String imagePath = null;
+        Uri uri = data.getData();
+        if (DocumentsContract.isDocumentUri(this, uri)) {
+            String documentId = DocumentsContract.getDocumentId(uri);
+
+            if (TextUtils.equals(uri.getAuthority(), "com.android.providers.media.documents")) {
+                String id = documentId.split(":")[1];
+                String selection = MediaStore.Images.Media._ID + "=" + id;
+                imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
+
+            } else if (TextUtils.equals(uri.getAuthority(), "com.android.providers.downloads.documents")) {
+                if (documentId != null && documentId.startsWith("msf:")) {
+                    resolveMSFContent(uri, documentId);
+                    return;
+                }
+                Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(documentId));
+                imagePath = getImagePath(contentUri, null);
+            }
+
+        } else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            imagePath = getImagePath(uri, null);
+        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            imagePath = uri.getPath();
+        }
+
+        displayImage(imagePath);
+    }
+    private void resolveMSFContent(Uri uri, String documentId) {
+
+        File file = new File(getCacheDir(), "temp_file" + getContentResolver().getType(uri).split("/")[1]);
+
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(uri);
+
+            OutputStream outputStream = new FileOutputStream(file);
+
+            byte[] buffer = new byte[4 * 1024];
+            int read;
+            while ((read = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, read);
+            }
+            outputStream.flush();
+
+            Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+            ivAvatar.setImageBitmap(bitmap);
+            imageBase64 = ImageUtil.imageToBase64(bitmap);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
-    public void choosePhoto(View view) {
 
+
+    @SuppressLint("Range")
+    private String getImagePath(Uri uri, String selection) {
+        String path = null;
+        Cursor cursor = getContentResolver().query(uri, null, selection, null, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+
+            }
+            cursor.close();
+        }
+        return path;
+    }
+
+    private void displayImage(String imagePath){
+        if(imagePath != null){
+            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+            ivAvatar.setImageBitmap(bitmap);
+            String imageToBase64 = ImageUtil.imageToBase64(bitmap);
+            imageBase64 = imageToBase64;
+        }
+    }
+
+    public void choosePhoto(View view) {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            //真正的打开相册
+            openAlbum();
+        }
+        else{
+            //去申请权限
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},0);
+        }
+    }
+
+    private void openAlbum() {
+        Intent intent = new Intent("android.intent.action.GET_CONTENT");
+        intent.setType("image/*");
+        startActivityForResult(intent, REQUEST_CODE_CHOOSE);
     }
 }

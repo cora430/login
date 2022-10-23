@@ -58,10 +58,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/btn_bg_selector"
+                    android:onClick="choosePhoto"
                     android:text="相册"
                     android:textColor="@color/white"
-                    android:textSize="14dp"
-                    android:onClick="choosePhoto"/>
+                    android:textSize="14dp" />
 
             </LinearLayout>
         </RelativeLayout>
